@@ -1,6 +1,6 @@
-/* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
-import React from "react";
+import { useContext } from "react";
+import ListContext from "../contexts/ListContext";
 import { styled } from "styled-components";
 
 const PictureItemBlock = styled.div`
@@ -21,12 +21,16 @@ const PictureItemBlock = styled.div`
 `;
 
 const PictureItem = ({ id, imgURL }) => {
+  const listed = useContext(ListContext).state;
+
+  console.log(listed);
+
   return (
-    <PictureItemBlock>
-      <img src={imgURL} />
+    <PictureItemBlock listed={listed}>
+      <img src={imgURL} alt="item" />
       <p>name: {id}</p>
     </PictureItemBlock>
   );
 };
 
-export default React.memo(PictureItem);
+export default PictureItem;
