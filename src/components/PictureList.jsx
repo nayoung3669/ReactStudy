@@ -16,7 +16,6 @@ const PictureListBlock = styled.div`
 const PaginationListBlock = styled.div`
   display: flex;
   margin-top: 15px;
-  /* min-width: 600px; */
   padding: 20px;
   justify-content: center;
 `;

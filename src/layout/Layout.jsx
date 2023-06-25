@@ -39,13 +39,15 @@ const Layout = ({ children }) => {
 
   const onClick = () => {
     actions.setListed(!state.listed);
-    console.log(state.listed);
   };
+
   return (
     <LayoutBlock>
       <div className="header">
         <p className="title">RECENT PROJECTS</p>
-        <button onClick={onClick}>LIST VIEW</button>
+        <button onClick={onClick}>
+          {state.listed ? "GRID VIEW" : "LIST VIEW"}
+        </button>
       </div>
       {children}
     </LayoutBlock>
