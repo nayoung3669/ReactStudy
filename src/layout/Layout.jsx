@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
-
+import { useContext } from "react";
 import { styled } from "styled-components";
+import ListContext from "../contexts/ListContext";
 
 const LayoutBlock = styled.div`
   display: flex;
@@ -10,13 +11,16 @@ const LayoutBlock = styled.div`
   max-width: 800px;
   height: 100vh;
   .header {
+    min-width: 500px;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     border-bottom: 1px solid #494949;
     width: 100%;
-    margin: 70px 0px 20px 0px;
+    margin: 70px 0px 20px 30px;
     p {
-      font-size: 2.5rem;
+      letter-spacing: -2px;
+      font-size: 3.3rem;
       margin: 0px;
     }
     button {
@@ -31,11 +35,19 @@ const LayoutBlock = styled.div`
 `;
 
 const Layout = ({ children }) => {
+  const { state, actions } = useContext(ListContext);
+
+  const onClick = () => {
+    actions.setListed(!state.listed);
+  };
+
   return (
     <LayoutBlock>
       <div className="header">
         <p className="title">RECENT PROJECTS</p>
-        <button>List View</button>
+        <button onClick={onClick}>
+          {state.listed ? "GRID VIEW" : "LIST VIEW"}
+        </button>
       </div>
       {children}
     </LayoutBlock>

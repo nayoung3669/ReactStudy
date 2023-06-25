@@ -6,28 +6,31 @@ import axios from "axios";
 const PictureListBlock = styled.div`
   width: 95%;
   display: flex;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
-  min-height: 600px;
+  min-height: 580px;
 `;
 
 const PaginationListBlock = styled.div`
   display: flex;
   margin-top: 15px;
+  padding: 20px;
+  justify-content: center;
 `;
 
 const PaginationButtonBlock = styled.button`
   width: 40px;
   height: 20px;
   margin: 3px;
-  cursor: pointer;
   background: none;
   color: #f6f6f6;
 `;
 
 const PictureList = () => {
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const PostPerPage = 9;
 
@@ -64,12 +67,11 @@ const PictureList = () => {
     setCurrentPage(page + 1);
   };
 
-  if (loading || !data) {
+  if (loading || data.length === 0) {
     return (
       <PictureListBlock className="loading">Loading... 🐈</PictureListBlock>
     );
   }
-  console.log(data);
 
   return (
     <>
@@ -78,16 +80,16 @@ const PictureList = () => {
           const { id, url } = item;
           return <PictureItem key={id} id={id} imgURL={url} />;
         })}
+        <PaginationListBlock>
+          {Array.from({ length: totalPages }).map((_, idx) => (
+            <PaginationButtonBlock
+              key={idx}
+              onClick={() => handlePageChange(idx + 1)}>
+              {idx + 1}
+            </PaginationButtonBlock>
+          ))}
+        </PaginationListBlock>
       </PictureListBlock>
-      <PaginationListBlock>
-        {Array.from({ length: totalPages }).map((page, idx) => (
-          <PaginationButtonBlock
-            key={idx}
-            onClick={() => handlePageChange(idx + 1)}>
-            {idx + 1}
-          </PaginationButtonBlock>
-        ))}
-      </PaginationListBlock>
     </>
   );
 };

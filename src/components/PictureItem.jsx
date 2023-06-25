@@ -1,7 +1,9 @@
-/* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
-import React from "react";
-import { styled } from "styled-components";
+import { useContext } from "react";
+import ListContext from "../contexts/ListContext";
+import { css, styled } from "styled-components";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const PictureItemBlock = styled.div`
   color: #f6f6f6;
@@ -18,15 +20,31 @@ const PictureItemBlock = styled.div`
   p {
     margin: none;
   }
+  ${({ listview }) =>
+    listview &&
+    css`
+      width: 500px;
+      border-bottom: 0.5px solid gray;
+      text-align: start;
+    `}
 `;
 
 const PictureItem = ({ id, imgURL }) => {
+  const { listed } = useContext(ListContext).state;
+  const [listview, setListview] = useState(listed);
+
+  useEffect(() => {
+    setListview(listed);
+  }, [listed]);
+
+  console.log(listed);
+
   return (
-    <PictureItemBlock>
-      <img src={imgURL} />
+    <PictureItemBlock listview={listview}>
+      <img src={imgURL} alt="item" />
       <p>name: {id}</p>
     </PictureItemBlock>
   );
 };
 
-export default React.memo(PictureItem);
+export default PictureItem;
