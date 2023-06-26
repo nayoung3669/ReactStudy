@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-function usePromise(page, limit = 9, startPageIndex, lastPageIndex) {
+function usePromise(page, limit = 9) {
   const URL = "https://api.thecatapi.com/v1/images/search";
   const API_KEY =
     "live_TMHkfzpN281MrIv3tbYggwCuoviA3a5CjNGvVIbY9bPIVbeSbTZ6rY5Ndnc2BbdP";
@@ -20,7 +20,7 @@ function usePromise(page, limit = 9, startPageIndex, lastPageIndex) {
           },
           params: {
             page: page,
-            limit: limit,
+            limit: 9,
             order: "ASC",
           },
         });
