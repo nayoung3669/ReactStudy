@@ -8,9 +8,8 @@ import Layout from "./layout/Layout";
 function Nav() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />} />
-      <Route path=":page" element={<PictureList />} />
-      <Route index element={<PictureList />} />
+      <Route path="/" element={<PictureList />} />
+      <Route path="/:page" element={<PictureList />} />
     </Routes>
   );
 }
@@ -20,10 +19,9 @@ function App() {
     <>
       <ListProvider>
         <Layout>
-          <PictureList />
+          <Nav />
         </Layout>
       </ListProvider>
-      <Nav />
     </>
   );
 }

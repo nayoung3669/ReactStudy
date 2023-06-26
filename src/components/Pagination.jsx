@@ -1,19 +1,53 @@
+/* eslint-disable react/prop-types */
 import { useMemo } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { styled } from "styled-components";
+import usePromise from "../hooks/usePromise";
+
+const PageButton = styled.button`
+  background-color: black;
+  color: #f6f6f6;
+`;
 
 const Pagination = ({ currentPageGroup, TotalPagesPerFive, page }) => {
-  const pageNumbers = useMemo(() => {
-    [...Array.from({ length: 5 })].map((_, i) => currentPageGroup * 5 - i - 1);
-  }, [currentPageGroup]);
+  const navigate = useNavigate();
 
-  console.log(pageNumbers);
+  const pageNumbers = useMemo(
+    () => [...Array(5)].map((_, i) => (currentPageGroup - 1) * 5 + i + 1),
+    [currentPageGroup],
+  );
+
+  const movePage = (pageNumber) => {
+    navigate(`/${(currentPageGroup - 1) * 5 + pageNumber}`);
+  };
+
+  const moveNextPagesGroup = () => {
+    const startPageIndex = (currentPageGroup - 1) * 5 + 1;
+    const lastPageIndex = currentPageGroup * 5;
+    =usePromise(startPageIndex, lastPageIndex)
+    navigate(`/${currentPageGroup * 5 + 1}`);
+  };
+
+  const movePreviousPageGroup = () => {
+    navigate(`/${(currentPageGroup - 1) * 5}`);
+  };
+
+  console.log(currentPageGroup);
 
   return (
-    <div>
-      {pageNumbers.map((page, idx) => {
-        <button key={page} onClick={<Link to="idx"></Link>}></button>;
+    <>
+      {currentPageGroup === 1 ? null : (
+        <PageButton onClick={movePreviousPageGroup}>{`<`}</PageButton>
+      )}
+      {pageNumbers.map((_, idx) => {
+        return (
+          <PageButton key={idx} onClick={() => movePage(idx + 1)}>
+            {(currentPageGroup - 1) * 5 + idx + 1}
+          </PageButton>
+        );
       })}
-    </div>
+      <PageButton onClick={moveNextPagesGroup}>{`>`}</PageButton>
+    </>
   );
 };
 

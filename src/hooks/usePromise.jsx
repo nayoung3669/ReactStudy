@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-function usePromise(page, limit = 45) {
+function usePromise(page, limit = 9, startPageIndex, lastPageIndex) {
   const URL = "https://api.thecatapi.com/v1/images/search";
   const API_KEY =
     "live_TMHkfzpN281MrIv3tbYggwCuoviA3a5CjNGvVIbY9bPIVbeSbTZ6rY5Ndnc2BbdP";
@@ -11,7 +11,6 @@ function usePromise(page, limit = 45) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log("000000");
     const fetchData = async () => {
       setLoading(true);
       try {
@@ -27,22 +26,13 @@ function usePromise(page, limit = 45) {
         });
         setResolved(response.data);
         setLoading(false);
-
-        console.log(response);
       } catch (e) {
-        console.log(e.message);
         setLoading(false);
-
         setError(e);
-      } finally {
-        setLoading(false);
       }
     };
     fetchData();
   }, [page, limit]);
-
-  console.log(page, limit);
-  console.log(resolved);
 
   return { loading, resolved, error };
 }

@@ -37,8 +37,6 @@ const PictureItem = ({ id, imgURL }) => {
     setListview(listed);
   }, [listed]);
 
-  console.log(listed);
-
   return (
     <PictureItemBlock listview={listview}>
       <img src={imgURL} alt="item" />

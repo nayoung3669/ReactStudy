@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { styled } from "styled-components";
 import PictureItem from "./PictureItem";
 import usePromise from "../hooks/usePromise";
@@ -22,17 +22,8 @@ const PaginationListBlock = styled.div`
   justify-content: center;
 `;
 
-// const PaginationButtonBlock = styled.button`
-//   width: 40px;
-//   height: 20px;
-//   margin: 3px;
-//   background: none;
-//   color: #f6f6f6;
-// `;
-
 const PostPerPage = 9;
-//1~5page
-const TotalPagesPerFive = Math.ceil(10000 / PostPerPage / 5);
+const TotalPagesPerFive = Math.ceil(PostPerPage * 5);
 
 const PictureList = () => {
   let { page } = useParams();
@@ -40,35 +31,37 @@ const PictureList = () => {
   if (isNaN(page) || page < 0) {
     page = 1;
   }
-  console.log("------");
-  console.log(page);
+  const [data, setData] = useState(null);
   const { loading, resolved, error } = usePromise(page); //1page, 45개씩 fetch
-  const currentPageGroup = useMemo(() => Math.ceil(page / 5) + 1, [page]);
+  const currentPageGroup = useMemo(() => Math.ceil(page / 5), [page]);
 
-  if (loading || resolved.length === 0) {
+  const onChangePageGroup = () => {
+    setData(resolved);
+  };
+  useEffect(() => {
+    onChangePageGroup();
+  }, [resolved]);
+
+  if (loading || data.length === 0 || error) {
     return (
       <PictureListBlock className="loading">Loading... 🐈</PictureListBlock>
     );
   }
 
-  console.log(loading, resolved, error);
-
   return (
-    <>
-      <PictureListBlock>
-        {resolved.map((item) => {
-          const { id, url } = item;
-          return <PictureItem key={id} id={id} imgURL={url} />;
-        })}
-        <PaginationListBlock>
-          <Pagination
-            currentPageGroup={currentPageGroup}
-            TotalPagesPerFive={TotalPagesPerFive}
-            page={page}
-          />
-        </PaginationListBlock>
-      </PictureListBlock>
-    </>
+    <PictureListBlock>
+      {data.map((item) => {
+        const { id, url } = item;
+        return <PictureItem key={id} id={id} imgURL={url} />;
+      })}
+      <PaginationListBlock>
+        <Pagination
+          currentPageGroup={currentPageGroup}
+          TotalPagesPerFive={TotalPagesPerFive}
+          page={page}
+        />
+      </PaginationListBlock>
+    </PictureListBlock>
   );
 };
 
