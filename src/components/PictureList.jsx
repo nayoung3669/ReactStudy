@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { styled } from "styled-components";
 import PictureItem from "./PictureItem";
-import axios from "axios";
+import usePromise from "../hooks/usePromise";
+import { useParams } from "react-router-dom";
+import Pagination from "./Pagination";
 
 const PictureListBlock = styled.div`
   width: 95%;
@@ -20,74 +22,50 @@ const PaginationListBlock = styled.div`
   justify-content: center;
 `;
 
-const PaginationButtonBlock = styled.button`
-  width: 40px;
-  height: 20px;
-  margin: 3px;
-  background: none;
-  color: #f6f6f6;
-`;
+// const PaginationButtonBlock = styled.button`
+//   width: 40px;
+//   height: 20px;
+//   margin: 3px;
+//   background: none;
+//   color: #f6f6f6;
+// `;
+
+const PostPerPage = 9;
+//1~5page
+const TotalPagesPerFive = Math.ceil(10000 / PostPerPage / 5);
 
 const PictureList = () => {
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const PostPerPage = 9;
+  let { page } = useParams();
+  page = parseInt(page, 10);
+  if (isNaN(page) || page < 0) {
+    page = 1;
+  }
+  console.log("------");
+  console.log(page);
+  const { loading, resolved, error } = usePromise(page); //1page, 45개씩 fetch
+  const currentPageGroup = useMemo(() => Math.ceil(page / 5) + 1, [page]);
 
-  useEffect(() => {
-    setLoading(true);
-    const fetchData = async () => {
-      try {
-        const response = await axios({
-          url: "https://api.thecatapi.com/v1/images/search?limit=50",
-          method: "GET",
-          headers: {
-            "x-api-key":
-              "live_TMHkfzpN281MrIv3tbYggwCuoviA3a5CjNGvVIbY9bPIVbeSbTZ6rY5Ndnc2BbdP",
-          },
-        });
-        setData(response.data);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    setLoading(false);
-    fetchData();
-  }, []);
-
-  //보여줄 data slice
-  const indexOfLastItem = currentPage * PostPerPage;
-  const indexOfFirstItem = indexOfLastItem - PostPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
-
-  //전체 페이지 수
-  const totalPages = Math.ceil(data.length / PostPerPage);
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page + 1);
-  };
-
-  if (loading || data.length === 0) {
+  if (loading || resolved.length === 0) {
     return (
       <PictureListBlock className="loading">Loading... 🐈</PictureListBlock>
     );
   }
 
+  console.log(loading, resolved, error);
+
   return (
     <>
       <PictureListBlock>
-        {currentItems.map((item) => {
+        {resolved.map((item) => {
           const { id, url } = item;
           return <PictureItem key={id} id={id} imgURL={url} />;
         })}
         <PaginationListBlock>
-          {Array.from({ length: totalPages }).map((_, idx) => (
-            <PaginationButtonBlock
-              key={idx}
-              onClick={() => handlePageChange(idx + 1)}>
-              {idx + 1}
-            </PaginationButtonBlock>
-          ))}
+          <Pagination
+            currentPageGroup={currentPageGroup}
+            TotalPagesPerFive={TotalPagesPerFive}
+            page={page}
+          />
         </PaginationListBlock>
       </PictureListBlock>
     </>
