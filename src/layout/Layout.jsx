@@ -44,7 +44,7 @@ const Layout = ({ children }) => {
   return (
     <LayoutBlock>
       <div className="header">
-        <p className="title">RECENT PROJECTS</p>
+        <p className="title">RECENT PROJECTS 🐈</p>
         <button onClick={onClick}>
           {state.listed ? "GRID VIEW" : "LIST VIEW"}
         </button>

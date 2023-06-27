@@ -20,7 +20,7 @@ function usePromise(page, limit = 9) {
           },
           params: {
             page: page,
-            limit: 9,
+            limit: limit,
             order: "ASC",
           },
         });
@@ -34,7 +34,7 @@ function usePromise(page, limit = 9) {
     fetchData();
   }, [page, limit]);
 
-  return { loading, resolved, error };
+  return [loading, resolved, error];
 }
 
 export default usePromise;

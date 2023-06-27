@@ -6,7 +6,8 @@ import { useParams } from "react-router-dom";
 import Pagination from "./Pagination";
 
 const PictureListBlock = styled.div`
-  width: 95%;
+  width: 100%;
+  height: 65%;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -28,18 +29,22 @@ const PictureList = () => {
   if (isNaN(page) || page < 0) {
     page = 1;
   }
-  const { loading, resolved, error } = usePromise(page); //1page, 45개씩 fetch
+  const [loading, data, error] = usePromise(page); //1page, 45개씩 fetch
   const currentPageGroup = useMemo(() => Math.ceil(page / 5), [page]);
 
-  if (loading || resolved.length === 0 || error) {
+  if (loading || data.length === 0 || error) {
     return (
-      <PictureListBlock className="loading">Loading... 🐈</PictureListBlock>
+      <PictureListBlock
+        className="loading"
+        style={{ minWidth: "1000px", fontSize: "2.5rem" }}>
+        Loading... 🐈
+      </PictureListBlock>
     );
   }
 
   return (
     <PictureListBlock>
-      {resolved.map((item) => {
+      {data.map((item) => {
         const { id, url } = item;
         return <PictureItem key={id} id={id} imgURL={url} />;
       })}
