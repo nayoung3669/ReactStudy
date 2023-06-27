@@ -4,13 +4,13 @@ import "./assets/styles/reset.css";
 import PictureList from "./components/PictureList";
 import { ListProvider } from "./contexts/ListContext";
 import Layout from "./layout/Layout";
+import GlobalStyle from "./assets/styles/GlobalStyle";
 
 function Nav() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />} />
-      <Route path=":page" element={<PictureList />} />
-      <Route index element={<PictureList />} />
+      <Route path="/" element={<PictureList />} />
+      <Route path="/:page" element={<PictureList />} />
     </Routes>
   );
 }
@@ -19,11 +19,11 @@ function App() {
   return (
     <>
       <ListProvider>
+        <GlobalStyle />
         <Layout>
-          <PictureList />
+          <Nav />
         </Layout>
       </ListProvider>
-      <Nav />
     </>
   );
 }
