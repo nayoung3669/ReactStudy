@@ -4,9 +4,8 @@ import ResultItem from "../components/ResultItem";
 
 const ResultContainer = ({ loading, data }) => {
   if (loading || !data) {
-    return <div>Loading ...</div>;
+    return null;
   }
-  console.log("렌더링됨");
   return (
     <div>
       {data.map((article) => {

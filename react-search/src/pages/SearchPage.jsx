@@ -1,9 +1,10 @@
-import SearchContainer from "../containers/SearchContainer";
+import SearchInputContainer from "../containers/SearchInputContainer";
 
 const SearchPage = () => {
   return (
     <div>
-      <SearchContainer />
+      <h1 style={{ marginTop: "90px" }}>Search Any!</h1>
+      <SearchInputContainer />
     </div>
   );
 };
