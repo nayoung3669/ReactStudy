@@ -1,9 +1,9 @@
-import SearchContainers from "../containers/SearchContainers";
+import SearchContainer from "../containers/SearchContainer";
 
 const SearchPage = () => {
   return (
     <div>
-      <SearchContainers />
+      <SearchContainer />
     </div>
   );
 };
