@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import { CancelRounded } from "@material-ui/icons";
 import { SearchOutlined } from "@material-ui/icons";
+import React from "react";
 
 const SearchInput = ({
   text,
@@ -28,9 +28,8 @@ const SearchInput = ({
         placeholder="검색어를 입력하세요."
         onKeyPress={(e) => onKeyPressHandler(e)}
       />
-      <div className="cancel">{text && <CancelRounded fontSize="large" />}</div>
     </>
   );
 };
 
-export default SearchInput;
+export default React.memo(SearchInput);

@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import SearchInput from "../components/SearchInput";
 import usePromise from "../hooks/usePromise";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { debounce } from "lodash";
 
 const categories = [
   { name: "웹 검색", category: "web" },
@@ -18,30 +19,43 @@ const SearchInputContainer = () => {
   const size = 3;
   const [loading, data, error] = usePromise(category, text, size);
   const [autoComplete, setAutoComplete] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    data && setAutoComplete(data.map((a) => a.title));
-    console.log(autoComplete);
+    const autoCompleteHandler = debounce(() => {
+      console.log("debounced");
+      if (data) {
+        setAutoComplete(data.map((a) => a.title));
+      }
+    }, 500);
+    autoCompleteHandler();
+
+    return () => {
+      autoCompleteHandler.cancel();
+    };
   }, [data]);
 
-  const onChangeText = (e) => {
+  const onChangeText = useCallback((e) => {
     setText(e.target.value);
-  };
+  }, []);
 
-  const onChangeCategory = (e) => {
+  const onChangeCategory = useCallback((e) => {
     setCategory(e.target.value);
-  };
+  }, []);
 
-  const onClickHandler = () => {
+  const navigate = useNavigate();
+
+  const onClickHandler = useCallback(() => {
     navigate(`${category}/${text}`);
-  };
+  }, [category, navigate, text]);
 
-  const onKeyPressHandler = (e) => {
-    if (e.key === "Enter") {
-      navigate(`${category}/${text}`);
-    }
-  };
+  const onKeyPressHandler = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        navigate(`${category}/${text}`);
+      }
+    },
+    [category, navigate, text],
+  );
 
   return (
     <SearchContainerBlock>

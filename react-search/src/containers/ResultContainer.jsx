@@ -2,8 +2,8 @@
 
 import ResultItem from "../components/ResultItem";
 
-const ResultContainer = ({ loading, data }) => {
-  if (loading || !data) {
+const ResultContainer = ({ data }) => {
+  if (!data) {
     return null;
   }
   return (

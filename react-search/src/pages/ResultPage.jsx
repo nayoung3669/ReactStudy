@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useParams } from "react-router-dom";
 import ResultContainer from "../containers/ResultContainer";
 import usePromise from "../hooks/usePromise";

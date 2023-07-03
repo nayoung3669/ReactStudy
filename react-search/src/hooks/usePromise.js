@@ -2,7 +2,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 const SEARCH_URL = "https://dapi.kakao.com/v2/search";
-const API_KEY = "KakaoAK 71c61a3d36993c8292e525ec98e0fb22";
 
 const usePromise = (category, query = "", size) => {
   const [loading, setLoading] = useState(false);
@@ -15,7 +14,7 @@ const usePromise = (category, query = "", size) => {
       try {
         const response = await axios(`${SEARCH_URL}/${category}`, {
           headers: {
-            Authorization: API_KEY,
+            Authorization: `KakaoAK ${import.meta.env.VITE_REACT_API_KEY}`,
           },
           params: {
             query: query,
