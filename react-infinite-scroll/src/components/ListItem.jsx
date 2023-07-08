@@ -1,17 +1,17 @@
 import { styled } from "styled-components";
 
 /* eslint-disable react/prop-types */
-const Item = ({ id, idx, url }) => {
+const ListItem = ({ id, idx, url }) => {
   return (
     <ItemBox url={url}>
-      <div className="idx">{idx}</div>
+      <div className="idx">{idx + 1}</div>
       <div className="imgCircle"></div>
       {<p className="id">{id}</p>}
     </ItemBox>
   );
 };
 
-export default Item;
+export default ListItem;
 
 const ItemBox = styled.div`
   width: 100%;
