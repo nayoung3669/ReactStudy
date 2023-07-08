@@ -19,7 +19,7 @@ const ItemBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid black;
+  border: 1.5px solid black;
   padding: 20px 40px;
   margin-bottom: 30px;
   position: relative;
