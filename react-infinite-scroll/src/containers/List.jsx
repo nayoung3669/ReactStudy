@@ -23,8 +23,8 @@ const List = () => {
 
   return (
     <ListBox>
-      {data.map((item) => (
-        <Item key={item.id} url={item.url} id={item.id}>
+      {data.map((item, idx) => (
+        <Item key={item.id} idx={idx} url={item.url} id={item.id}>
           List
         </Item>
       ))}
@@ -35,6 +35,7 @@ const List = () => {
 export default List;
 
 const ListBox = styled.div`
+  margin: 100px 100px 0px 100px;
   width: 70%;
 `;
 
