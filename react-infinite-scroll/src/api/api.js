@@ -10,7 +10,7 @@ export const getDogs = async () => {
         "x-api-key": API_KEY,
       },
       params: {
-        limit: 5,
+        limit: 10,
       },
     });
     console.log(response.data);

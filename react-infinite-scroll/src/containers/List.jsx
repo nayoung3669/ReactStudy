@@ -11,7 +11,10 @@ const List = () => {
 
   useEffect(() => {
     fetchDogs();
-    const observer = new IntersectionObserver(obsHandler, { threshold: 0.5 }); //element가 root 화면의 75% 교차했을 때 obsHandler 실행
+    const observer = new IntersectionObserver(obsHandler, {
+      threshold: 0,
+      rootMargin: "200% 0px",
+    }); //element가 root 화면의 75% 교차했을 때 obsHandler 실행
     if (obsRef.current) {
       observer.observe(obsRef.current); //처음엔 null 이라 실행 안되지만 return 문에서 참조한 뒤 실행됨
     }
@@ -43,7 +46,7 @@ const List = () => {
       {data.map((item, idx) => {
         return <ListItem key={idx} idx={idx} url={item.url} id={item.id} />;
       })}
-      <div ref={obsRef}>
+      <div ref={obsRef} className="ref">
         <Progress />
       </div>
     </ListBox>
@@ -55,6 +58,9 @@ export default List;
 const ListBox = styled.div`
   margin: 100px 100px 0px 100px;
   width: 70%;
+  .ref {
+    padding-top: 300px;
+  }
 `;
 
 const Progress = () => (
