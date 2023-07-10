@@ -13,8 +13,8 @@ const List = () => {
     fetchDogs();
     const observer = new IntersectionObserver(obsHandler, {
       threshold: 0,
-      rootMargin: "200% 0px",
-    }); //element가 root 화면의 75% 교차했을 때 obsHandler 실행
+      rootMargin: "150% 0px",
+    }); //element가 root 화면에 나타났을 때 obsHandler 실행
     if (obsRef.current) {
       observer.observe(obsRef.current); //처음엔 null 이라 실행 안되지만 return 문에서 참조한 뒤 실행됨
     }
@@ -59,7 +59,7 @@ const ListBox = styled.div`
   margin: 100px 100px 0px 100px;
   width: 70%;
   .ref {
-    padding-top: 300px;
+    padding-top: 100px;
   }
 `;
 
