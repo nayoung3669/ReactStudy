@@ -13,7 +13,7 @@ const ListItem = ({ id, idx, url }) => {
 
 export default ListItem;
 
-const ItemBox = styled.div`
+export const ItemBox = styled.div`
   width: 100%;
   height: 80px;
   display: flex;
@@ -48,6 +48,8 @@ const ItemBox = styled.div`
   }
 
   .id {
-    padding-right: 80px;
+    width: 110px;
+    height: 30px;
+    margin-right: 80px;
   }
 `;
