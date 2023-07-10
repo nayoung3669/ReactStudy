@@ -3,13 +3,11 @@ import { ItemBox } from "../ListItem";
 
 const Skeleton = () => {
   return (
-    <ItemBox>
-      <SkeletonBox>
-        <div className="idx"></div>
-        <div className="imgCircle"></div>
-        {<p className="id"></p>}
-      </SkeletonBox>
-    </ItemBox>
+    <StyledItemBox>
+      <div className="idx"></div>
+      <div className="imgCircle"></div>
+      <p className="id"></p>
+    </StyledItemBox>
   );
 };
 
@@ -27,19 +25,18 @@ const blinkAnimation = keyframes`
   }
 `;
 
-const SkeletonBox = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-  padding-top: 10px;
-
+const StyledItemBox = styled(ItemBox)`
+  border: 1.5px solid #ccc;
+  .idx {
+    background: #ccc;
+  }
   .imgCircle {
-    margin-right: 200px;
     background-color: #ccc;
     animation: ${blinkAnimation} 1.5s linear infinite; // 회전 애니메이션 적용
   }
 
   .id {
+    width: 25rem;
     background-color: #ccc;
     animation: ${blinkAnimation} 1.5s linear infinite; // 회전 애니메이션 적용
   }

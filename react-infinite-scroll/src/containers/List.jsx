@@ -66,6 +66,6 @@ const List = () => {
 export default List;
 
 const ListBox = styled.div`
+  padding: 0;
   margin: 100px 100px 0px 100px;
-  width: 70%;
 `;
